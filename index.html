@@ -623,7 +623,7 @@
     // ---------------- Supabase & Auth Setup ----------------
     const SUPABASE_URL = 'https://qnkockslvplcviyvuvft.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFua29ja3NsdnBsY3ZpeXZ1dmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MTc3MzMsImV4cCI6MjA1OTI5MzczM30.TNx8MW2b-xOsKKtblqQQrdwDmpY50OtxXxShh0blbvU';
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     let currentUser = null;
     // ---------------- Auth Handlers ----------------
     document.getElementById('login-form').addEventListener('submit', async (e) => {
