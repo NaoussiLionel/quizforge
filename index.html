@@ -8,7 +8,6 @@
          • Separate sections for Welcome, Auth (Login/Register), Generator (App), History, and FAQ.
          • Responsive UX with animated transitions and improved button styles.
          • Credits for all third-party libraries.
-       To deploy, simply copy this file to your web server.
   -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -116,13 +115,16 @@
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
+      transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .cta-buttons button:hover {
       background-color: var(--primary-hover);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     }
     .cta-buttons button:active {
       transform: scale(0.98);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     /* Auth (Login/Register) Page */
     #auth-page {
@@ -307,7 +309,7 @@
     }
     .status.success {
       background-color: #D1FAE5;
-      color: var(--success);
+      color: var (--success);
     }
     .status.info {
       background-color: #E0F2FE;
