@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Developer Guide:
-       This integrated file is built on QuizForge 1.4 (base) with enhancements from Enhance 1.4.
-       It includes:
-         • A persistent navigation header.
-         • Separate sections for Welcome, Auth (Login/Register), Generator (App), History, and FAQ.
-         • Responsive UX with animated transitions and improved button styles.
-         • Credits for all third-party libraries.
-       To deploy, simply copy this file to your web server.
-  -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuizForge</title>
@@ -46,7 +37,6 @@
       margin: auto;
       padding: 1rem;
     }
-    /* Header and Navigation */
     .header {
       display: flex;
       align-items: center;
@@ -72,13 +62,17 @@
       text-decoration: none;
       padding: 0.5rem 1rem;
       border-radius: 0.375rem;
-      transition: background-color 0.2s;
+      transition: all 0.2s;
       cursor: pointer;
     }
     .nav-link:hover {
       background-color: rgba(79, 70, 229, 0.1);
     }
-    /* Sections (with animated transitions) */
+    .nav-link.active {
+      color: var(--primary);
+      background-color: rgba(79, 70, 229, 0.1);
+      font-weight: 500;
+    }
     section {
       display: none;
       animation-duration: 0.5s;
@@ -86,7 +80,6 @@
     section.active {
       display: block;
     }
-    /* Welcome Page */
     #welcome-page {
       text-align: center;
       padding: 4rem 1rem;
@@ -109,22 +102,19 @@
       justify-content: center;
     }
     .cta-buttons button {
-      background-color: var(--primary);
-      color: white;
-      border: none;
+      background-color: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
       border-radius: 0.375rem;
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
+      transition: all 0.2s;
     }
     .cta-buttons button:hover {
-      background-color: var(--primary-hover);
+      background-color: var(--primary);
+      color: white;
     }
-    .cta-buttons button:active {
-      transform: scale(0.98);
-    }
-    /* Auth (Login/Register) Page */
     #auth-page {
       max-width: 400px;
       margin: 2rem auto;
@@ -178,7 +168,6 @@
     .auth-card button:hover {
       background-color: var(--primary-hover);
     }
-    /* Generator (App) Page */
     #app-page {
       padding: 1rem;
     }
@@ -203,11 +192,7 @@
       font-weight: 500;
       margin-bottom: 0.5rem;
     }
-    input[type="text"],
-    input[type="password"],
-    input[type="email"],
-    select,
-    textarea {
+    input, select, textarea {
       width: 100%;
       padding: 0.625rem;
       border: 1px solid var(--border);
@@ -216,9 +201,7 @@
       box-sizing: border-box;
       transition: border-color 0.2s;
     }
-    input:focus,
-    select:focus,
-    textarea:focus {
+    input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
@@ -283,7 +266,6 @@
       margin-top: 1.5rem;
       flex-wrap: wrap;
     }
-    /* Output and Loader */
     #output {
       background-color: #F3F4F6;
       padding: 1rem;
@@ -327,7 +309,6 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    /* FAQ Page */
     #faq-page .faq-item {
       margin-bottom: 1rem;
       border: 1px solid var(--border);
@@ -347,7 +328,6 @@
       padding: 0 1rem 1rem 1rem;
       display: none;
     }
-    /* History Page */
     .history-item {
       background: var(--surface);
       padding: 1rem;
@@ -355,7 +335,6 @@
       border-radius: 0.5rem;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
-    /* Footer Credits */
     .footer {
       text-align: center;
       font-size: 0.75rem;
@@ -381,23 +360,58 @@
         width: 100%;
       }
     }
+    @media (max-width: 480px) {
+      .header {
+        padding: 0.5rem;
+      }
+      .nav-links {
+        gap: 0.5rem;
+      }
+      .nav-link {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.5rem;
+      }
+      .logo {
+        font-size: 1.2rem;
+      }
+      .container {
+        padding: 0.5rem;
+      }
+      .hero {
+        padding: 2rem 0.5rem;
+      }
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      .cta-buttons {
+        flex-direction: column;
+      }
+      .auth-card {
+        padding: 1rem;
+      }
+      .question-type {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .question-type input[type="number"] {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Header & Navigation -->
   <div class="header">
     <div class="logo">QuizForge</div>
     <div class="nav-links">
-      <div class="nav-link" onclick="navigateTo('welcome-page')">Home</div>
-      <div class="nav-link" onclick="navigateTo('auth-page')">Login/Register</div>
-      <div class="nav-link" id="nav-generator" onclick="navigateTo('app-page')" style="display: none;">Generator</div>
-      <div class="nav-link" id="nav-history" onclick="navigateTo('history-page')" style="display: none;">History</div>
-      <div class="nav-link" onclick="navigateTo('faq-page')">FAQ</div>
+      <div class="nav-link active" data-page="welcome-page" onclick="navigateTo('welcome-page')">Home</div>
+      <div class="nav-link" data-page="auth-page" onclick="navigateTo('auth-page')">Login/Register</div>
+      <div class="nav-link" id="nav-generator" data-page="app-page" onclick="navigateTo('app-page')" style="display: none;">Generator</div>
+      <div class="nav-link" id="nav-history" data-page="history-page" onclick="navigateTo('history-page')" style="display: none;">History</div>
+      <div class="nav-link" data-page="faq-page" onclick="navigateTo('faq-page')">FAQ</div>
       <div class="nav-link" id="nav-logout" onclick="logout()" style="display: none;">Logout</div>
     </div>
   </div>
 
-  <!-- Welcome Page -->
   <section id="welcome-page" class="active animate__animated animate__fadeIn">
     <div class="hero">
       <h1>Create Professional Exams in Minutes</h1>
@@ -409,7 +423,6 @@
     </div>
   </section>
 
-  <!-- Auth (Login/Register) Page -->
   <section id="auth-page" class="animate__animated">
     <div class="auth-card container">
       <div class="auth-tabs">
@@ -430,7 +443,6 @@
     </div>
   </section>
 
-  <!-- Generator (App) Page -->
   <section id="app-page" class="container animate__animated">
     <div class="card">
       <h1>Create Custom Exam Paper</h1>
@@ -532,13 +544,11 @@
     <div id="output"></div>
   </section>
 
-  <!-- History Page -->
   <section id="history-page" class="container animate__animated">
     <h2>Generation History</h2>
     <div id="history-list"></div>
   </section>
 
-  <!-- FAQ Page -->
   <section id="faq-page" class="container animate__animated">
     <h2>Frequently Asked Questions</h2>
     <div class="faq-item">
@@ -579,17 +589,14 @@
     </div>
   </section>
 
-  <!-- Footer Credits -->
   <div class="footer container">
     <p>Credits: Supabase, jsPDF, html2canvas, Docx, Marked, Animate.css, Google Fonts</p>
   </div>
 
-  <!-- Watermark -->
   <div class="watermark">Naoussi Industries © 2025</div>
 
-  <!-- JavaScript -->
   <script>
-    // ---------------- Navigation Functions ----------------
+    // Navigation
     function navigateTo(sectionId) {
       const sections = document.querySelectorAll("section");
       sections.forEach(sec => {
@@ -601,8 +608,13 @@
         target.style.display = "block";
         target.classList.add("active", "animate__fadeIn");
       }
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        if(link.dataset.page === sectionId) link.classList.add('active');
+      });
     }
-    // ---------------- FAQ Toggle ----------------
+
+    // FAQ
     function toggleFAQ(element) {
       const answer = element.nextElementSibling;
       if (answer.style.display === "block") {
@@ -613,33 +625,43 @@
         element.querySelector("span").textContent = "▲";
       }
     }
-    // ---------------- Auth Tab Switching ----------------
+
+    // Auth Tabs
     function switchAuthTab(type) {
       document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
       document.getElementById(type + "-form").classList.add('active');
       document.querySelector(`[onclick="switchAuthTab('${type}')"]`).classList.add('active');
     }
-    // ---------------- Supabase & Auth Setup ----------------
-    const SUPABASE_URL = 'https://qnkockslvplcviyvuvft.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFua29ja3NsdnBsY3ZpeXZ1dmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MTc3MzMsImV4cCI6MjA1OTI5MzczM30.TNx8MW2b-xOsKKtblqQQrdwDmpY50OtxXxShh0blbvU';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Supabase Setup
+    const SUPABASE_URL = 'https://qnkockslvplcviyvuvft.supabase.co'; // Replace with your URL
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFua29ja3NsdnBsY3ZpeXZ1dmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MTc3MzMsImV4cCI6MjA1OTI5MzczM30.TNx8MW2b-xOsKKtblqQQrdwDmpY50OtxXxShh0blbvU'; // Replace with your anon key
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     let currentUser = null;
-    // ---------------- Auth Handlers ----------------
+
+    // Auth Handlers
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = e.target[0].value;
       const password = e.target[1].value;
       const { error, data } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) return alert(error.message);
+      if (error) {
+        if (error.message.includes('not found')) {
+          showError(`No account found. <a href="#" onclick="switchAuthTab('register')">Create one?</a>`, true);
+        } else {
+          showError(error.message);
+        }
+        return;
+      }
       currentUser = data.user;
-      // Show Generator, History, and Logout nav links
       document.getElementById("nav-generator").style.display = "block";
       document.getElementById("nav-history").style.display = "block";
       document.getElementById("nav-logout").style.display = "block";
       navigateTo('app-page');
       loadHistory();
     });
+
     document.getElementById('register-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = e.target[0].value;
@@ -648,9 +670,10 @@
       if (password !== confirmPassword) return alert('Passwords do not match!');
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) return alert(error.message);
-      alert('Registration successful! Please check your email for verification.');
+      alert('Registration successful! Please check your email (including spam folder) for verification. The email will come from Supabase Auth.');
       navigateTo('app-page');
     });
+
     function logout() {
       supabase.auth.signOut();
       currentUser = null;
@@ -659,7 +682,8 @@
       document.getElementById("nav-logout").style.display = "none";
       navigateTo('welcome-page');
     }
-    // ---------------- History Function ----------------
+
+    // History
     async function loadHistory() {
       if (!currentUser) return;
       const { data, error } = await supabase
@@ -677,7 +701,8 @@
         `).join('');
       }
     }
-    // ---------------- Generator Functions ----------------
+
+    // Generator
     const output = document.getElementById('output');
     const status = document.getElementById('status');
     const generateBtn = document.getElementById('generateBtn');
@@ -687,19 +712,27 @@
     const loader = document.getElementById('loader');
     const rawOutputToggle = document.getElementById('rawOutputToggle');
     let generatedContent = { questions: "", answers: "" };
-    function showError(message) {
+
+    function showError(message, isHTML = false) {
       status.className = "status error";
-      status.textContent = message;
+      if(isHTML) {
+        status.innerHTML = message;
+      } else {
+        status.textContent = message;
+      }
       status.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+
     function showStatus(message, type = "info") {
       status.className = `status ${type}`;
       status.textContent = message;
     }
+
     function getTopics() {
       const topicInputs = document.querySelectorAll(".topic-input");
       return Array.from(topicInputs).map((input) => input.value.trim()).filter(Boolean);
     }
+
     function addTopic() {
       const container = document.getElementById("topics-container");
       const newTopic = document.createElement("div");
@@ -711,6 +744,7 @@
       container.appendChild(newTopic);
       newTopic.querySelector("input").focus();
     }
+
     function removeTopic(element) {
       const container = document.getElementById("topics-container");
       if (container.children.length > 1) {
@@ -719,6 +753,7 @@
         showError("At least one topic is required");
       }
     }
+
     function getFilename() {
       let filename = document.getElementById("filename").value.trim();
       if (!filename) {
@@ -728,6 +763,7 @@
       }
       return filename;
     }
+
     async function generateQuestions() {
       const grade = document.getElementById("class").value;
       const subject = document.getElementById("subject").value.trim();
@@ -804,6 +840,16 @@
         }
         const content = data.choices[0].message.content;
         generatedContent = parseApiResponse(content, separateAnswerSheet);
+        if (currentUser) {
+          await supabase
+            .from('history')
+            .insert([{ 
+              user_id: currentUser.id, 
+              content: generatedContent,
+              created_at: new Date().toISOString()
+            }]);
+        }
+        loadHistory();
         if (rawOutputToggle.checked) {
           output.textContent = generatedContent.questions;
           if (!separateAnswerSheet && generatedContent.answers) {
@@ -827,6 +873,7 @@
         generateBtn.disabled = false;
       }
     }
+
     function parseApiResponse(content, separateAnswerSheet) {
       let questions = content;
       let answers = "";
@@ -860,6 +907,7 @@
       }
       return { questions: questions.trim(), answers: answers.trim() };
     }
+
     function downloadPDF() {
       try {
         const { jsPDF } = window.jspdf;
@@ -880,6 +928,7 @@
         showError("Failed to generate PDF. Please try again.");
       }
     }
+
     function downloadWord() {
       try {
         const { Document, Paragraph, TextRun, HeadingLevel, Packer } = window.docx;
@@ -931,6 +980,7 @@
         showError("Failed to generate Word document. Please try again.");
       }
     }
+
     function downloadTXT() {
       try {
         const filename = getFilename() + ".txt";
