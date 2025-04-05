@@ -1,228 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Developer Guide:
-       This integrated file is built on QuizForge 1.4 (base) with enhancements from Enhance 1.4.
-       It includes:
-         • A persistent navigation header.
-         • Separate sections for Welcome, Auth (Login/Register), Generator (App), History, and FAQ.
-         • Responsive UX with animated transitions and improved button styles.
-         • Credits for all third-party libraries.
-       To deploy, simply copy this file to your web server.
-  -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuizForge</title>
-  <!-- Dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://unpkg.com/docx@7.4.1/build/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
   <style>
-  :root {
-    --primary: #58CC02; /* Duolingo Green */
-    --primary-hover: #46A702;
-    --surface: #FFFFFF;
-    --border: #E5E7EB;
-    --text-primary: #111827;
-    --text-secondary: #6B7280;
-    --error: #DC2626;
-    --success: #059669;
-    --generate-btn: #58CC02;
-    --font-family: 'Poppins', sans-serif; /* Duolingo-like font */
-  }
-  body {
-    font-family: var(--font-family);
-    line-height: 1.6;
-    color: var(--text-primary);
-    background-color: #F9FAFB;
-    margin: 0;
-    padding: 0;
-  }
-  .header {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    background-color: var(--primary);
-    color: white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  .logo {
-    font-weight: 600;
-    font-size: 1.5rem;
-    color: white;
-  }
-  .nav-links {
-    margin-left: auto;
-    display: flex;
-    gap: 1.5rem;
-  }
-  .nav-link {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    transition: background-color 0.2s;
-    cursor: pointer;
-  }
-  .nav-link:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  .hero {
-    background: linear-gradient(135deg, #58CC02, #46A702);
-    color: white;
-    padding: 4rem 1rem;
-    border-radius: 1rem;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-  .hero h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  .cta-buttons {
-    margin-top: 2rem;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-  }
-  .cta-buttons button {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  .cta-buttons button:hover {
-    background-color: var(--primary-hover);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  }
-  .cta-buttons button:active {
-    transform: scale(0.98);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  /* Additional styles for other sections */
-  .auth-card, .card {
-    background-color: var(--surface);
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  .form-group {
-    margin-bottom: 1.25rem;
-  }
-  label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-  input[type="text"], input[type="password"], input[type="email"], select, textarea {
-    width: 100%;
-    padding: 0.625rem;
-    border: 1px solid var(--border);
-    border-radius: 0.375rem;
-    font-size: 0.9rem;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-  }
-  input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
-  }
-  textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
-  button {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 0.375rem;
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    margin: 0.25rem 0;
-  }
-  button:hover {
-    background-color: var(--primary-hover);
-  }
-  button:active {
-    transform: scale(0.98);
-  }
-  button:disabled {
-    background-color: #9CA3AF;
-    cursor: not-allowed;
-  }
-  .button-group {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .status {
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    margin: 1rem 0;
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-  }
-  .status.error {
-    background-color: #FEE2E2;
-    color: var(--error);
-  }
-  .status.success {
-    background-color: #D1FAE5;
-    color: var (--success);
-  }
-  .status.info {
-    background-color: #E0F2FE;
-    color: #0369A1;
-  }
-  .loader {
-    display: none;
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid var(--primary);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 2rem auto;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  @media (max-width: 768px) {
-    .grid-2 {
-      grid-template-columns: 1fr;
-    }
-    .button-group {
-      flex-direction: column;
-    }
-    button {
-      width: 100%;
-    }
-  }
-</style>
+    /* Include the CSS styles from Step 1 here */
+  </style>
 </head>
 <body>
-  <!-- Header & Navigation -->
   <div class="header">
     <div class="logo">QuizForge</div>
     <div class="nav-links">
@@ -235,7 +28,6 @@
     </div>
   </div>
 
-  <!-- Welcome Page -->
   <section id="welcome-page" class="active animate__animated animate__fadeIn">
     <div class="hero">
       <h1>Create Professional Exams in Minutes</h1>
@@ -247,7 +39,6 @@
     </div>
   </section>
 
-  <!-- Auth (Login/Register) Page -->
   <section id="auth-page" class="animate__animated">
     <div class="auth-card container">
       <div class="auth-tabs">
@@ -268,13 +59,12 @@
     </div>
   </section>
 
-  <!-- Generator (App) Page -->
   <section id="app-page" class="container animate__animated">
     <div class="card">
       <h1>Create Custom Exam Paper</h1>
       <div class="grid-2">
         <div class="form-group">
-          <label for="Class/Level">class</label>
+          <label for="class">Class/Level</label>
           <input type="text" id="class" placeholder="e.g. Form 1" value="Form 1" required />
         </div>
         <div class="form-group">
@@ -319,97 +109,93 @@
             <input type="number" id="short-answer-count" min="1" max="20" value="5" />
           </div>
           <div class="question-type">
-                    <input type="checkbox" id="essay" />
-          <label for="essay">Essay</label>
-          <input type="number" id="essay-count" min="1" max="5" value="2" />
-        </div>
-        <div class="question-type">
-          <input type="checkbox" id="true-false" />
-          <label for="true-false">True/False</label>
-          <input type="number" id="true-false-count" min="1" max="20" value="5" />
+            <input type="checkbox" id="essay" />
+            <label for="essay">Essay</label>
+            <input type="number" id="essay-count" min="1" max="5" value="2" />
+          </div>
+          <div class="question-type">
+            <input type="checkbox" id="true-false" />
+            <label for="true-false">True/False</label>
+            <input type="number" id="true-false-count" min="1" max="20" value="5" />
+          </div>
         </div>
       </div>
+      <div class="form-group">
+        <label>
+          <input type="checkbox" id="separate-answer-sheet" checked />
+          Generate separate answer sheet
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="filename">File Name (without extension)</label>
+        <input type="text" id="filename" placeholder="e.g. Math_Exam_2025" />
+      </div>
+      <div class="toggle-container" style="margin: 1rem 0;">
+        <input type="checkbox" id="rawOutputToggle" />
+        <label for="rawOutputToggle">Display output as raw text (DOCX style)</label>
+      </div>
+      <div class="button-group">
+        <button id="generateBtn" onclick="generateQuestions()">Generate Exam Paper</button>
+        <button id="downloadPdfBtn" onclick="downloadPDF()" disabled>Download PDF</button>
+        <button id="downloadWordBtn" onclick="downloadWord()" disabled>Download Word</button>
+        <button id="downloadTxtBtn" onclick="downloadTXT()" disabled>Download TXT</button>
+      </div>
+      <div id="status" class="status info">Ready to generate</div>
+      <div id="loader" class="loader"></div>
     </div>
-    <div class="form-group">
-      <label>
-        <input type="checkbox" id="separate-answer-sheet" checked />
-        Generate separate answer sheet
-      </label>
-    </div>
-    <div class="form-group">
-      <label for="filename">File Name (without extension)</label>
-      <input type="text" id="filename" placeholder="e.g. Math_Exam_2025" />
-    </div>
-    <div class="toggle-container" style="margin: 1rem 0;">
-      <input type="checkbox" id="rawOutputToggle" />
-      <label for="rawOutputToggle">Display output as raw text (DOCX style)</label>
-    </div>
-    <div class="button-group">
-      <button id="generateBtn" onclick="generateQuestions()">Generate Exam Paper</button>
-      <button id="downloadPdfBtn" onclick="downloadPDF()" disabled>Download PDF</button>
-      <button id="downloadWordBtn" onclick="downloadWord()" disabled>Download Word</button>
-      <button id="downloadTxtBtn" onclick="downloadTXT()" disabled>Download TXT</button>
-    </div>
-    <div id="status" class="status info">Ready to generate</div>
-    <div id="loader" class="loader"></div>
-  </div>
-  <div id="output"></div>
-</section>
+    <div id="output"></div>
+  </section>
 
-<!-- History Page -->
-<section id="history-page" class="container animate__animated">
-  <h2>Generation History</h2>
-  <div id="history-list"></div>
-</section>
+  <section id="history-page" class="container animate__animated">
+    <h2>Generation History</h2>
+    <div id="history-list"></div>
+  </section>
 
-<!-- FAQ Page -->
-<section id="faq-page" class="container animate__animated">
-  <h2>Frequently Asked Questions</h2>
-  <div class="faq-item">
-    <div class="faq-question" onclick="toggleFAQ(this)">
-      How do I save my generated exams?
-      <span>▼</span>
+  <section id="faq-page" class="container animate__animated">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFAQ(this)">
+        How do I save my generated exams?
+        <span>▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>Exams are automatically saved to your secure cloud history after generation.</p>
+      </div>
     </div>
-    <div class="faq-answer">
-      <p>Exams are automatically saved to your secure cloud history after generation.</p>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFAQ(this)">
+        Can I export my exam paper in different formats?
+        <span>▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>Yes, you can download your exam as PDF, Word, or TXT using the provided options.</p>
+      </div>
     </div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-question" onclick="toggleFAQ(this)">
-      Can I export my exam paper in different formats?
-      <span>▼</span>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFAQ(this)">
+        What happens after I register or log in?
+        <span>▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>Once logged in, you can access the exam generator, view your history, and manage your account.</p>
+      </div>
     </div>
-    <div class="faq-answer">
-      <p>Yes, you can download your exam as PDF, Word, or TXT using the provided options.</p>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFAQ(this)">
+        Which third-party tools power QuizForge?
+        <span>▼</span>
+      </div>
+      <div class="faq-answer">
+        <p>QuizForge uses Supabase for auth/storage, jsPDF, html2canvas, Docx, and Marked for document generation, along with Animate.css for transitions and Google Fonts for typography.</p>
+      </div>
     </div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-question" onclick="toggleFAQ(this)">
-      What happens after I register or log in?
-      <span>▼</span>
-    </div>
-    <div class="faq-answer">
-      <p>Once logged in, you can access the exam generator, view your history, and manage your account.</p>
-    </div>
-  </div>
-  <div class="faq-item">
-    <div class="faq-question" onclick="toggleFAQ(this)">
-      Which third-party tools power QuizForge?
-      <span>▼</span>
-    </div>
-    <div class="faq-answer">
-      <p>QuizForge uses Supabase for auth/storage, jsPDF, html2canvas, Docx, and Marked for document generation, along with Animate.css for transitions and Google Fonts for typography.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- Footer Credits -->
-<div class="footer container">
-  <p>Credits: Supabase, jsPDF, html2canvas, Docx, Marked, Animate.css, Google Fonts</p>
-</div>
+  <div class="footer container">
+    <p>Credits: Supabase, jsPDF, html2canvas, Docx, Marked, Animate.css, Google Fonts</p>
+  </div>
 
-<!-- Watermark -->
-<div class="watermark">Naoussi Industries © 2025</div>
+  <div class="watermark">Naoussi Industries © 2025</div>
 
 <!-- JavaScript -->
 <script>
