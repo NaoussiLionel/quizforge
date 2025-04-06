@@ -1,0 +1,63 @@
+Documentation for index.html in quizforge Repository
+Overview
+The index.html file serves as the main entry point for the QuizForge web application. It includes the basic structure of the HTML document, links to external dependencies, CSS styles, and JavaScript functions for various functionalities.
+
+HTML Structure
+Header Section
+
+Contains the logo and a hamburger menu for navigation.
+The hamburger menu toggles the side menu visibility.
+Side Menu
+
+Fixed side navigation that slides in from the left.
+Contains links to different sections of the webpage: Home, Features, About Us, Auth, FAQ, and a close menu item.
+Main Content
+
+The main content is divided into several sections:
+Home Section: Contains a hero section with a welcome message and a call-to-action button.
+Features Section: Describes the features of QuizForge.
+About Us Section: Provides information about Naoussi Industries.
+Auth Section: Contains login and registration forms.
+FAQ Section: Frequently asked questions with toggleable answers.
+Generator Section: A form to generate exam papers with various inputs and options.
+Footer
+
+Contains a copyright message.
+CSS Styles
+Root Variables: Defines primary colors, text colors, and background colors.
+Base Reset & Fonts: Resets margins, paddings, and sets the default font family and background color.
+Header Styles: Styles for the fixed header and logo.
+Hamburger Menu & Side Navigation: Styles for the hamburger menu and the side menu.
+Main Container & Sections: Styles for the main container and individual sections.
+Specific Sections: Additional styles for the Home, Features, About Us, Auth, FAQ, and Generator sections.
+Responsive Design: Media queries for responsive design adjustments.
+JavaScript Functions
+Navigation Functions
+
+toggleMenu(): Toggles the visibility of the side menu.
+navigateTo(sectionId): Smoothly navigates to a specific section and highlights its nav link.
+FAQ Functions
+
+toggleFAQ(element): Toggles the display of FAQ answers.
+Auth Functions
+
+switchAuthTab(type): Switches between login and registration tabs.
+login-form and register-form event listeners: Handles form submissions for login and registration using Supabase.
+Generator Functions
+
+Functions for generating exam papers, adding/removing topics, and handling file downloads (PDF, Word, TXT).
+External Dependencies
+Supabase: For authentication and database operations.
+Marked: For parsing markdown content.
+Google Fonts: For the Inter font family.
+Animate.css: For animations.
+Usage
+To use the QuizForge application:
+
+Navigate through the side menu to access different sections.
+Use the Auth section to login or register.
+Generate exam papers using the Generator section by filling out the form and clicking the generate button.
+Download the generated exam paper in various formats (PDF, Word, TXT).
+Notes
+Ensure to replace the Supabase credentials with your own in the SUPABASE_URL and SUPABASE_KEY variables.
+Customize the CSS styles as needed to match your branding.
