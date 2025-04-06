@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuizForge</title>
   <!-- External Dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
   <style>
     :root {
       --primary: #4F46E5;
@@ -34,7 +34,7 @@
       text-decoration: none;
       color: inherit;
     }
-    /* Header Styles */
+    /* Add Header Styles */
     .header {
       position: fixed;
       top: 0;
@@ -55,6 +55,10 @@
     }
     /* Hamburger Menu & Side Navigation */
     .hamburger {
+      position: relative;
+      top: auto;
+      left: auto;
+      z-index: 1100;
       cursor: pointer;
     }
     .hamburger span {
@@ -92,21 +96,6 @@
     }
     .side-menu ul li a.active {
       font-weight: bold;
-    }
-    .side-menu .close-item {
-      border-top: 1px solid var(--border);
-      margin-top: 1rem;
-      padding-top: 1rem;
-    }
-    .side-menu .close-item a {
-      color: var(--primary);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .side-menu .close-item a:hover {
-      color: var(--primary-hover);
     }
     /* Main Container & Sections */
     .container {
@@ -434,6 +423,20 @@
       .side-menu { width: 200px; }
       #generator .grid-2 { grid-template-columns: 1fr; }
     }
+    .side-menu .close-item {
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  .side-menu .close-item a {
+    color: var(--primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .side-menu .close-item a:hover {
+    color: var(--primary-hover);
   </style>
 </head>
 <body>
@@ -447,14 +450,15 @@
   </header>
   <!-- Hamburger Menu -->
   <nav id="side-menu" class="side-menu">
-    <ul>
-      <li><a href="#home" onclick="navigateTo('home'); toggleMenu()" id="nav-home">Home</a></li>
-      <li><a href="#features" onclick="navigateTo('features'); toggleMenu()" id="nav-features">Features</a></li>
-      <li><a href="#about" onclick="navigateTo('about'); toggleMenu()" id="nav-about">About Us</a></li>
-      <li><a href="#auth" onclick="navigateTo('auth'); toggleMenu()" id="nav-auth">Auth</a></li>
-      <li><a href="#faq" onclick="navigateTo('faq'); toggleMenu()" id="nav-faq">FAQ</a></li>
-      <li class="close-item"><a href="javascript:void(0)" onclick="toggleMenu()">× Close Menu</a></li>
-    </ul>
+  <ul>
+    <li><a href="#home" onclick="navigateTo('home'); toggleMenu()" id="nav-home">Home</a></li>
+    <li><a href="#features" onclick="navigateTo('features'); toggleMenu()" id="nav-features">Features</a></li>
+    <li><a href="#about" onclick="navigateTo('about'); toggleMenu()" id="nav-about">About Us</a></li>
+    <li><a href="#auth" onclick="navigateTo('auth'); toggleMenu()" id="nav-auth">Auth</a></li>
+    <li><a href="#faq" onclick="navigateTo('faq'); toggleMenu()" id="nav-faq">FAQ</a></li>
+    <!-- Add close menu item -->
+    <li class="close-item"><a href="javascript:void(0)" onclick="toggleMenu()">× Close Menu</a></li>
+  </ul>
   </nav>
 
   <!-- Main Content -->
@@ -465,6 +469,7 @@
         <h1>Welcome to QuizForge</h1>
         <p>Create professional exams in minutes with our AI-powered generator.</p>
         <div class="cta-buttons">
+          <!-- Button to navigate to the Generator section -->
           <button onclick="navigateTo('auth')">Get Started</button>
         </div>
       </div>
@@ -474,10 +479,10 @@
     <section id="features" class="animate__animated">
       <h2>Features</h2>
       <p>
-        QuizForge offers an intuitive exam generator that makes creating tests a breeze. With responsive design and AI-powered content creation, educators can quickly craft comprehensive exams covering various topics.
+        QuizForge offers an intuitive exam generator that makes creating tests a breeze. With responsive design and AI-powered content creation, educators can quickly craft comprehensive exams complete with multiple choice, short answer, essay, and true/false questions.
       </p>
       <p>
-        Our platform leverages cutting-edge tools such as Supabase, jsPDF, html2canvas, Docx, and Marked. This integration ensures that your exams are professional, exportable in various formats, and easy to manage.
+        Our platform leverages cutting-edge tools such as Supabase, jsPDF, html2canvas, Docx, and Marked. This integration ensures that your exams are professional, exportable in various formats, and delivered with the highest quality.
       </p>
     </section>
 
@@ -485,10 +490,10 @@
     <section id="about" class="animate__animated">
       <h2>About Us</h2>
       <p>
-        Naoussi Industries is passionately dedicated to empowering educators and innovators. We pride ourselves on our commitment to quality and continuous technological advancement. Our visionary approach ensures that we remain at the forefront of educational technology.
+        Naoussi Industries is passionately dedicated to empowering educators and innovators. We pride ourselves on our commitment to quality and continuous technological advancement. Our visionary founder, PDG TEDJOUONG NAOUSSI Ange Lionel, has poured his heart and soul into developing QuizForge—an app designed to revolutionize exam creation.
       </p>
       <p>
-        With boundless enthusiasm and a drive for excellence, we work relentlessly to push the boundaries of educational technology. Our mission is to inspire both teachers and students by providing innovative tools that make learning more engaging and effective.
+        With boundless enthusiasm and a drive for excellence, we work relentlessly to push the boundaries of educational technology. Our mission is to inspire both teachers and students by providing a tool that is not only powerful but also user-friendly and efficient.
       </p>
       <div class="contact">
         Contact Us: Tel: +237 658120586 | Email: naoussilionel8@gmail.com
@@ -517,7 +522,7 @@
       </div>
     </section>
 
-        <!-- FAQ Section -->
+    <!-- FAQ Section -->
     <section id="faq" class="animate__animated">
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">
@@ -556,11 +561,11 @@
         <div class="grid-2">
           <div class="form-group">
             <label for="class">Class/Grade</label>
-            <input type="text" id="class" placeholder="e.g. Form 1" value="Form 1" required>
+            <input type="text" id="class" placeholder="e.g. Form 1" value="Form 1" required />
           </div>
           <div class="form-group">
             <label for="subject">Subject</label>
-            <input type="text" id="subject" placeholder="e.g. Mathematics" value="Mathematics" required>
+            <input type="text" id="subject" placeholder="e.g. Mathematics" value="Mathematics" required />
           </div>
         </div>
         <div class="form-group">
@@ -577,7 +582,7 @@
           <label>Topics <button type="button" onclick="addTopic()">+ Add Topic</button></label>
           <div id="topics-container">
             <div class="topic-item">
-              <input type="text" placeholder="Enter topic" class="topic-input" required>
+              <input type="text" placeholder="Enter topic" class="topic-input" required />
               <span onclick="removeTopic(this)" style="cursor:pointer;">✕</span>
             </div>
           </div>
@@ -590,45 +595,43 @@
           <label>Question Types</label>
           <div class="question-types">
             <div class="question-type">
-              <input type="checkbox" id="mcq" checked>
+              <input type="checkbox" id="mcq" checked />
               <label for="mcq">Multiple Choice</label>
-              <input type="number" id="mcq-count" min="1" max="20" value="5">
+              <input type="number" id="mcq-count" min="1" max="20" value="5" />
             </div>
             <div class="question-type">
-              <input type="checkbox" id="short-answer" checked>
+              <input type="checkbox" id="short-answer" checked />
               <label for="short-answer">Short Answer</label>
-              <input type="number" id="short-answer-count" min="1" max="20" value="5">
+              <input type="number" id="short-answer-count" min="1" max="20" value="5" />
             </div>
             <div class="question-type">
-              <input type="checkbox" id="essay">
+              <input type="checkbox" id="essay" />
               <label for="essay">Essay</label>
-              <input type="number" id="essay-count" min="1" max="5" value="2">
+              <input type="number" id="essay-count" min="1" max="5" value="2" />
             </div>
             <div class="question-type">
-              <input type="checkbox" id="true-false">
+              <input type="checkbox" id="true-false" />
               <label for="true-false">True/False</label>
-              <input type="number" id="true-false-count" min="1" max="20" value="5">
+              <input type="number" id="true-false-count" min="1" max="20" value="5" />
             </div>
           </div>
         </div>
         <div class="form-group">
           <label>
-            <input type="checkbox" id="separate-answer-sheet" checked>
+            <input type="checkbox" id="separate-answer-sheet" checked />
             Generate separate answer sheet
           </label>
         </div>
         <div class="form-group">
           <label for="filename">File Name (without extension)</label>
-          <input type="text" id="filename" placeholder="e.g. Math_Exam_2025">
+          <input type="text" id="filename" placeholder="e.g. Math_Exam_2025" />
         </div>
         <div class="toggle-container" style="margin: 1rem 0;">
-          <input type="checkbox" id="rawOutputToggle">
+          <input type="checkbox" id="rawOutputToggle" />
           <label for="rawOutputToggle">Display output as raw text (DOCX style)</label>
         </div>
         <div class="button-group">
           <button id="generateBtn" onclick="generateQuestions()">Generate Exam Paper</button>
-      </div>
-      <div class="button-group">
           <button id="downloadPdfBtn" onclick="downloadPDF()" disabled>Download PDF</button>
           <button id="downloadWordBtn" onclick="downloadWord()" disabled>Download Word</button>
           <button id="downloadTxtBtn" onclick="downloadTXT()" disabled>Download TXT</button>
@@ -816,7 +819,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `QCxoUtN1zmRL0QXniy9FK8fO4uccrDsy`
+            "Authorization": `Bearer QCxoUtN1zmRL0QXniy9FK8fO4uccrDsy`
           },
           body: JSON.stringify({
             model: "mistralai/Mistral-7B-Instruct-v0.1",
@@ -925,7 +928,7 @@
             ...questionsParagraphs
           ]
         });
-                if (document.getElementById("separate-answer-sheet").checked && generatedContent.answers) {
+        if (document.getElementById("separate-answer-sheet").checked && generatedContent.answers) {
           const answersParagraphs = generatedContent.answers.split("\n").map(
             line => new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
           );
