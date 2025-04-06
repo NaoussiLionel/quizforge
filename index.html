@@ -6,9 +6,20 @@
   <title>QuizForge</title>
   <!-- External Dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pizzip/3.0.5/pizzip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docxtemplater/3.21.0/docxtemplater.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://unpkg.com/docxtemplater@3.30.0/build/docxtemplater.js"></script>
+<script src="https://unpkg.com/pizzip@3.1.0/dist/pizzip.js"></script>
+<script src="https://unpkg.com/pizzip@3.1.0/dist/pizzip-utils.js"></script>
+<script src="https://unpkg.com/docx@7.4.1/build/index.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
   <style>
     :root {
       --primary: #4F46E5;
@@ -424,19 +435,20 @@
       #generator .grid-2 { grid-template-columns: 1fr; }
     }
     .side-menu .close-item {
-    border-top: 1px solid var(--border);
-    margin-top: 1rem;
-    padding-top: 1rem;
-  }
-  .side-menu .close-item a {
-    color: var(--primary);
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .side-menu .close-item a:hover {
-    color: var(--primary-hover);
+      border-top: 1px solid var(--border);
+      margin-top: 1rem;
+      padding-top: 1rem;
+    }
+    .side-menu .close-item a {
+      color: var(--primary);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .side-menu .close-item a:hover {
+      color: var(--primary-hover);
+    }
   </style>
 </head>
 <body>
@@ -450,15 +462,15 @@
   </header>
   <!-- Hamburger Menu -->
   <nav id="side-menu" class="side-menu">
-  <ul>
-    <li><a href="#home" onclick="navigateTo('home'); toggleMenu()" id="nav-home">Home</a></li>
-    <li><a href="#features" onclick="navigateTo('features'); toggleMenu()" id="nav-features">Features</a></li>
-    <li><a href="#about" onclick="navigateTo('about'); toggleMenu()" id="nav-about">About Us</a></li>
-    <li><a href="#auth" onclick="navigateTo('auth'); toggleMenu()" id="nav-auth">Auth</a></li>
-    <li><a href="#faq" onclick="navigateTo('faq'); toggleMenu()" id="nav-faq">FAQ</a></li>
-    <!-- Add close menu item -->
-    <li class="close-item"><a href="javascript:void(0)" onclick="toggleMenu()">× Close Menu</a></li>
-  </ul>
+    <ul>
+      <li><a href="#home" onclick="navigateTo('home'); toggleMenu()" id="nav-home">Home</a></li>
+      <li><a href="#features" onclick="navigateTo('features'); toggleMenu()" id="nav-features">Features</a></li>
+      <li><a href="#about" onclick="navigateTo('about'); toggleMenu()" id="nav-about">About Us</a></li>
+      <li><a href="#auth" onclick="navigateTo('auth'); toggleMenu()" id="nav-auth">Auth</a></li>
+      <li><a href="#faq" onclick="navigateTo('faq'); toggleMenu()" id="nav-faq">FAQ</a></li>
+      <!-- Add close menu item -->
+      <li class="close-item"><a href="javascript:void(0)" onclick="toggleMenu()">× Close Menu</a></li>
+    </ul>
   </nav>
 
   <!-- Main Content -->
@@ -470,7 +482,8 @@
         <p>Create professional exams in minutes with our AI-powered generator.</p>
         <div class="cta-buttons">
           <!-- Button to navigate to the Generator section -->
-          <button onclick="navigateTo('auth')">Get Started</button>
+          <button onclick="navigateTo('generator')">Get Started</button>
+          <button onclick="navigateTo('auth')">Create Account</button>
         </div>
       </div>
     </section>
@@ -479,10 +492,10 @@
     <section id="features" class="animate__animated">
       <h2>Features</h2>
       <p>
-        QuizForge offers an intuitive exam generator that makes creating tests a breeze. With responsive design and AI-powered content creation, educators can quickly craft comprehensive exams complete with multiple choice, short answer, essay, and true/false questions.
+        QuizForge offers an intuitive exam generator that makes creating tests a breeze. With responsive design and AI-powered content creation, educators can quickly craft comprehensive exams covering various topics and formats.
       </p>
       <p>
-        Our platform leverages cutting-edge tools such as Supabase, jsPDF, html2canvas, Docx, and Marked. This integration ensures that your exams are professional, exportable in various formats, and delivered with the highest quality.
+        Our platform leverages cutting-edge tools such as Supabase, jsPDF, html2canvas, Docx, and Marked. This integration ensures that your exams are professional, exportable in various formats, and easy to manage.
       </p>
     </section>
 
@@ -490,10 +503,10 @@
     <section id="about" class="animate__animated">
       <h2>About Us</h2>
       <p>
-        Naoussi Industries is passionately dedicated to empowering educators and innovators. We pride ourselves on our commitment to quality and continuous technological advancement. Our visionary founder, PDG TEDJOUONG NAOUSSI Ange Lionel, has poured his heart and soul into developing QuizForge—an app designed to revolutionize exam creation.
+        Naoussi Industries is passionately dedicated to empowering educators and innovators. We pride ourselves on our commitment to quality and continuous technological advancement. Our visionary approach drives us to create solutions that make a significant impact on the educational landscape.
       </p>
       <p>
-        With boundless enthusiasm and a drive for excellence, we work relentlessly to push the boundaries of educational technology. Our mission is to inspire both teachers and students by providing a tool that is not only powerful but also user-friendly and efficient.
+        With boundless enthusiasm and a drive for excellence, we work relentlessly to push the boundaries of educational technology. Our mission is to inspire both teachers and students by providing tools that enhance learning and teaching experiences.
       </p>
       <div class="contact">
         Contact Us: Tel: +237 658120586 | Email: naoussilionel8@gmail.com
@@ -523,7 +536,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section id="faq" class="animate__animated">
+       <section id="faq" class="animate__animated">
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">
         <div class="faq-question" onclick="toggleFAQ(this)">
@@ -632,9 +645,9 @@
         </div>
         <div class="button-group">
           <button id="generateBtn" onclick="generateQuestions()">Generate Exam Paper</button>
-          <button id="downloadPdfBtn" onclick="downloadPDF()" disabled>Download PDF</button>
-          <button id="downloadWordBtn" onclick="downloadWord()" disabled>Download Word</button>
-          <button id="downloadTxtBtn" onclick="downloadTXT()" disabled>Download TXT</button>
+          <button id="downloadPdfBtn" onclick="handleDownload('downloadPDF')" disabled>Download PDF</button>
+          <button id="downloadWordBtn" onclick="handleDownload('downloadWord')" disabled>Download Word</button>
+          <button id="downloadTxtBtn" onclick="handleDownload('downloadTXT')" disabled>Download TXT</button>
         </div>
         <div id="status" class="status info">Ready to generate</div>
         <div id="loader" class="loader"></div>
@@ -654,6 +667,7 @@
     function toggleMenu() {
       document.getElementById('side-menu').classList.toggle('active');
     }
+
     // Smoothly navigate to a section and highlight its nav link
     function navigateTo(sectionId) {
       document.querySelectorAll('.side-menu ul li a').forEach(link => link.classList.remove('active'));
@@ -668,6 +682,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
+
     // FAQ toggle functionality
     function toggleFAQ(element) {
       const answer = element.nextElementSibling;
@@ -679,6 +694,7 @@
         element.querySelector("span").textContent = "▲";
       }
     }
+
     // ---------- Auth (Sign In / Register) Functions ----------
     function switchAuthTab(type) {
       document.querySelectorAll('.auth-tab').forEach(tab => tab.classList.remove('active'));
@@ -686,10 +702,12 @@
       document.getElementById(type + "-form").classList.add('active');
       document.querySelector(`[onclick="switchAuthTab('${type}')"]`).classList.add('active');
     }
+
     const SUPABASE_URL = 'https://qnkockslvplcviyvuvft.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFua29ja3NsdnBsY3ZpeXZ1dmZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM3MTc3MzMsImV4cCI6MjA1OTI5MzczM30.TNx8MW2b-xOsKKtblqQQrdwDmpY50OtxXxShh0blbvU';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     let currentUser = null;
+
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = e.target[0].value;
@@ -700,6 +718,7 @@
       alert("Login successful!");
       navigateTo('generator');
     });
+
     document.getElementById('register-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = e.target[0].value;
@@ -711,6 +730,7 @@
       alert('Registration successful! Please check your email for verification.');
       navigateTo('generator');
     });
+
     // ---------- Exam Generator Functions ----------
     const output = document.getElementById('output');
     const status = document.getElementById('status');
@@ -721,19 +741,23 @@
     const loader = document.getElementById('loader');
     const rawOutputToggle = document.getElementById('rawOutputToggle');
     let generatedContent = { questions: "", answers: "" };
+
     function showError(message) {
       status.className = "status error";
       status.textContent = message;
       status.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+
     function showStatus(message, type = "info") {
       status.className = `status ${type}`;
       status.textContent = message;
     }
+
     function getTopics() {
       const topicInputs = document.querySelectorAll(".topic-input");
       return Array.from(topicInputs).map(input => input.value.trim()).filter(Boolean);
     }
+
     function addTopic() {
       const container = document.getElementById("topics-container");
       const newTopic = document.createElement("div");
@@ -745,6 +769,7 @@
       container.appendChild(newTopic);
       newTopic.querySelector("input").focus();
     }
+
     function removeTopic(element) {
       const container = document.getElementById("topics-container");
       if (container.children.length > 1) {
@@ -753,6 +778,7 @@
         showError("At least one topic is required");
       }
     }
+
     function getFilename() {
       let filename = document.getElementById("filename").value.trim();
       if (!filename) {
@@ -762,6 +788,7 @@
       }
       return filename;
     }
+
     async function generateQuestions() {
       const grade = document.getElementById("class").value;
       const subject = document.getElementById("subject").value.trim();
@@ -861,6 +888,7 @@
         generateBtn.disabled = false;
       }
     }
+
     function parseApiResponse(content, separateAnswerSheet) {
       let questions = content;
       let answers = "";
@@ -894,75 +922,89 @@
       }
       return { questions: questions.trim(), answers: answers.trim() };
     }
-    function downloadPDF() {
-      try {
-        const { jsPDF } = window.jspdf;
-        const filename = getFilename() + ".pdf";
-        const doc = new jsPDF({ unit: "mm", format: "a4" });
-        const outputEl = document.getElementById("output");
-        doc.html(outputEl, {
-          callback: function (doc) {
-            doc.save(filename);
-          },
-          x: 10,
-          y: 10,
-          width: doc.internal.pageSize.getWidth() - 20,
-          windowWidth: outputEl.scrollWidth
-        });
-      } catch (error) {
-        console.error("PDF generation error:", error);
-        showError("Failed to generate PDF. Please try again.");
+
+    function handleDownload(type) {
+      if (currentUser) {
+        window[type]();
+      } else {
+        if (confirm('You need to register to download. Would you like to register now?')) {
+          navigateTo('auth');
+        }
       }
     }
-    function downloadWord() {
-      try {
-        const { Document, Paragraph, TextRun, HeadingLevel, Packer } = window.docx;
-        const sections = [];
-        const questionsParagraphs = generatedContent.questions.split("\n").map(
-          line => new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
+
+    function downloadPDF() {
+    try {
+      const { jsPDF } = window.jspdf;
+      const filename = getFilename() + ".pdf";
+      const doc = new jsPDF({ unit: "mm", format: "a4" });
+      const outputEl = document.getElementById("output");
+      doc.html(outputEl, {
+        callback: function (doc) {
+          doc.save(filename);
+        },
+        x: 10,
+        y: 10,
+        width: doc.internal.pageSize.getWidth() - 20,
+        windowWidth: outputEl.scrollWidth
+      });
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      showError("Failed to generate PDF. Please try again.");
+    }
+  }
+
+   function downloadWord() {
+    try {
+      const { Document, Paragraph, TextRun, HeadingLevel, Packer } = window.docx;
+      const sections = [];
+      const questionsParagraphs = generatedContent.questions.split("\n").map(
+        (line) =>
+          new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
+      );
+      sections.push({
+        properties: {},
+        children: [
+          new Paragraph({ text: "Exam Paper", heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }),
+          ...questionsParagraphs
+        ]
+      });
+      if (document.getElementById("separate-answer-sheet").checked && generatedContent.answers) {
+        const answersParagraphs = generatedContent.answers.split("\n").map(
+          (line) =>
+            new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
         );
         sections.push({
           properties: {},
           children: [
-            new Paragraph({ text: "Exam Paper", heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }),
-            ...questionsParagraphs
+                       new Paragraph({ text: "Answer Key", heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }),
+            ...answersParagraphs
           ]
         });
-        if (document.getElementById("separate-answer-sheet").checked && generatedContent.answers) {
-          const answersParagraphs = generatedContent.answers.split("\n").map(
-            line => new Paragraph({ children: [new TextRun(line)], spacing: { after: 100 } })
-          );
-          sections.push({
-            properties: {},
-            children: [
-              new Paragraph({ text: "Answer Key", heading: HeadingLevel.HEADING_1, spacing: { after: 200 } }),
-              ...answersParagraphs
-            ]
-          });
-        }
-        const doc = new Document({
-          creator: "QuizForge",
-          title: "Exam Paper",
-          description: "Generated exam paper",
-          sections
-        });
-        const filename = getFilename() + ".docx";
-        Packer.toBlob(doc).then(blob => {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-          showStatus("Word document downloaded successfully!", "success");
-        });
-      } catch (error) {
-        console.error("Word generation error:", error);
-        showError("Failed to generate Word document. Please try again.");
       }
+      const doc = new Document({
+        creator: "QuizForge",
+        title: "Exam Paper",
+        description: "Generated exam paper",
+        sections
+      });
+      const filename = getFilename() + ".docx";
+      Packer.toBlob(doc).then((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showStatus("Word document downloaded successfully!", "success");
+      });
+    } catch (error) {
+      console.error("Word generation error:", error);
+      showError("Failed to generate Word document. Please try again.");
     }
+  }
     function downloadTXT() {
       try {
         const filename = getFilename() + ".txt";
