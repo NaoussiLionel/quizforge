@@ -34,11 +34,30 @@
       text-decoration: none;
       color: inherit;
     }
+    /* Add Header Styles */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--surface-light);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+    }
+    .logo {
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin-left: 1rem;
+    }
     /* Hamburger Menu & Side Navigation */
     .hamburger {
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
+      position: relative;
+      top: auto;
+      left: auto;
       z-index: 1100;
       cursor: pointer;
     }
@@ -81,7 +100,7 @@
     /* Main Container & Sections */
     .container {
       max-width: 1000px;
-      margin: 4rem auto 2rem;
+      margin: 6rem auto 2rem;
       padding: 0 1rem;
     }
     section {
@@ -404,23 +423,42 @@
       .side-menu { width: 200px; }
       #generator .grid-2 { grid-template-columns: 1fr; }
     }
+    .side-menu .close-item {
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+    padding-top: 1rem;
+  }
+  .side-menu .close-item a {
+    color: var(--primary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .side-menu .close-item a:hover {
+    color: var(--primary-hover);
   </style>
 </head>
 <body>
+  <header class="header">
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="logo">QuizForge</div>
+  </header>
   <!-- Hamburger Menu -->
-  <div class="hamburger" onclick="toggleMenu()">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
   <nav id="side-menu" class="side-menu">
-    <ul>
-      <li><a href="#home" onclick="navigateTo('home'); toggleMenu()" id="nav-home">Home</a></li>
-      <li><a href="#features" onclick="navigateTo('features'); toggleMenu()" id="nav-features">Features</a></li>
-      <li><a href="#about" onclick="navigateTo('about'); toggleMenu()" id="nav-about">About Us</a></li>
-      <li><a href="#auth" onclick="navigateTo('auth'); toggleMenu()" id="nav-auth">Auth</a></li>
-      <li><a href="#faq" onclick="navigateTo('faq'); toggleMenu()" id="nav-faq">FAQ</a></li>
-    </ul>
+  <ul>
+    <li><a href="#home" onclick="navigateTo('home'); toggleMenu()" id="nav-home">Home</a></li>
+    <li><a href="#features" onclick="navigateTo('features'); toggleMenu()" id="nav-features">Features</a></li>
+    <li><a href="#about" onclick="navigateTo('about'); toggleMenu()" id="nav-about">About Us</a></li>
+    <li><a href="#auth" onclick="navigateTo('auth'); toggleMenu()" id="nav-auth">Auth</a></li>
+    <li><a href="#faq" onclick="navigateTo('faq'); toggleMenu()" id="nav-faq">FAQ</a></li>
+    <!-- Add close menu item -->
+    <li class="close-item"><a href="javascript:void(0)" onclick="toggleMenu()">× Close Menu</a></li>
+  </ul>
   </nav>
 
   <!-- Main Content -->
