@@ -462,6 +462,11 @@
       <span></span>
     </div>
     <div class="logo">QuizForge</div>
+    <div id="header-ad" style="width: 100%; text-align: center; margin-top: 1rem;">
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
   </header>
   <!-- Hamburger Menu -->
   <nav id="side-menu" class="side-menu">
@@ -473,6 +478,13 @@
       <li><a href="#faq" onclick="navigateTo('faq'); toggleMenu()" id="nav-faq">FAQ</a></li>
       <!-- Add close menu item -->
       <li class="close-item"><a href="javascript:void(0)" onclick="toggleMenu()">× Close Menu</a></li>
+      <li class="ad-item">
+  <div id="sidebar-ad">
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+</li>
     </ul>
   </nav>
 
@@ -653,12 +665,42 @@
           <button id="downloadWordBtn" onclick="handleDownload('downloadWord')" disabled>Download Word</button>
           <button id="downloadTxtBtn" onclick="handleDownload('downloadTXT')" disabled>Download TXT</button>
         </div>
+        <!-- Ad Modal -->
+<div id="ad-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center;">
+  <div style="background: white; padding: 2rem; text-align: center; border-radius: 8px;">
+    <p>Please support us by viewing this ad!</p>
+    <div id="popup-ad">
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+    <button onclick="closeAdModal()" style="margin-top: 1rem; padding: 0.5rem 1rem;">Close</button>
+  </div>
+</div>
+
+<script>
+  function showAdModal() {
+    document.getElementById('ad-modal').style.display = 'flex';
+    setTimeout(() => {
+      document.getElementById('ad-modal').style.display = 'none';
+    }, 5000); // Automatically close after 5 seconds
+  }
+
+  function closeAdModal() {
+    document.getElementById('ad-modal').style.display = 'none';
+  }
+</script>
         <div id="status" class="status info">Ready to generate</div>
         <div id="loader" class="loader"></div>
       </div>
       <div id="output"></div>
       </div>  
     </section>
+    <section id="ad-between-sections" style="margin: 2rem 0; text-align: center;">
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</section>
   </main>
 
   <!-- Footer -->
@@ -795,6 +837,10 @@
     }
 
     async function generateQuestions() {
+      showAdModal(); // Show the ad modal
+  setTimeout(async () => {
+    // Existing logic for question generation
+  }, 5000); // Delay generation until the ad modal closes
       const grade = document.getElementById("class").value;
       const subject = document.getElementById("subject").value.trim();
       const language = document.getElementById("language").value;
@@ -929,14 +975,17 @@
     }
 
     function handleDownload(type) {
-      if (currentUser) {
-        window[type]();
-      } else {
-        if (confirm('You need to register to download. Would you like to register now?')) {
-          navigateTo('auth');
-        }
+  showAdModal(); // Show the ad modal
+  setTimeout(() => {
+    if (currentUser) {
+      window[type]();
+    } else {
+      if (confirm('You need to register to download. Would you like to register now?')) {
+        navigateTo('auth');
       }
     }
+  }, 5000); // Delay download until the ad modal closes
+}
 
     function downloadPDF() {
     try {
@@ -1032,6 +1081,21 @@
         showError("Failed to generate text file. Please try again.");
       }
     }
+    function detectAdBlocker() {
+    const testAd = document.createElement('div');
+    testAd.innerHTML = '&nbsp;';
+    testAd.className = 'adsbox';
+    testAd.style.position = 'absolute';
+    testAd.style.visibility = 'hidden';
+    document.body.appendChild(testAd);
+    setTimeout(() => {
+      if (testAd.offsetHeight === 0) {
+        alert("We noticed you're using an ad blocker. Please disable it to support our platform.");
+      }
+      document.body.removeChild(testAd);
+    }, 100);
+  }
+  window.onload = detectAdBlocker;
   </script>
 </body>
 </html>
