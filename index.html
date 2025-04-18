@@ -1081,21 +1081,58 @@
         showError("Failed to generate text file. Please try again.");
       }
     }
-    function detectAdBlocker() {
+   
+  </script>
+  <!-- Add Blocker Detection Script -->
+<script>
+  function detectAdBlocker() {
+    // Create a test element for ad blocker detection
     const testAd = document.createElement('div');
     testAd.innerHTML = '&nbsp;';
     testAd.className = 'adsbox';
     testAd.style.position = 'absolute';
     testAd.style.visibility = 'hidden';
     document.body.appendChild(testAd);
+
+    // Check if the element is blocked
     setTimeout(() => {
       if (testAd.offsetHeight === 0) {
-        alert("We noticed you're using an ad blocker. Please disable it to support our platform.");
+        // Ad blocker detected
+        const adBlockMessage = document.createElement('div');
+        adBlockMessage.style.position = 'fixed';
+        adBlockMessage.style.top = '0';
+        adBlockMessage.style.left = '0';
+        adBlockMessage.style.width = '100%';
+        adBlockMessage.style.height = '100%';
+        adBlockMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        adBlockMessage.style.color = 'white';
+        adBlockMessage.style.display = 'flex';
+        adBlockMessage.style.justifyContent = 'center';
+        adBlockMessage.style.alignItems = 'center';
+        adBlockMessage.style.zIndex = '9999';
+        adBlockMessage.style.textAlign = 'center';
+        adBlockMessage.innerHTML = `
+          <div>
+            <p style="font-size: 1.5rem; margin-bottom: 1rem;">
+              We noticed you're using an ad blocker. Ads help us keep QuizForge free for everyone.
+            </p>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+              Please disable your ad blocker to support us and enjoy uninterrupted access.
+            </p>
+            <button onclick="document.body.removeChild(this.parentNode.parentNode)" 
+                    style="padding: 0.5rem 1rem; background-color: #4F46E5; color: white; border: none; border-radius: 5px; font-size: 1rem;">
+              Close
+            </button>
+          </div>
+        `;
+        document.body.appendChild(adBlockMessage);
       }
       document.body.removeChild(testAd);
     }, 100);
   }
+
+  // Run the ad blocker detection on page load
   window.onload = detectAdBlocker;
-  </script>
+</script>
 </body>
 </html>
